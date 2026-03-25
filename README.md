@@ -1,59 +1,176 @@
-# GphotosFrontend
+# 📸 PhotoCloud — Frontend Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.14.
+Frontend du projet **PhotoCloud EPSI**, une application de gestion d’images inspirée de Google Photos, basée sur une architecture serverless sur Google Cloud Platform.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Objectif du projet
+
+Ce frontend permet :
+
+* 📤 d’uploader des images vers Google Cloud Storage
+* 🔍 de rechercher des images par tags
+* 🖼️ d’afficher une galerie dynamique
+
+Le tout connecté à des **Cloud Functions** (backend) et une base **Cloud SQL**.
+
+---
+
+## 🧠 Architecture
+
+Le projet Angular est structuré en 3 couches :
+
+```
+src/app/
+├── core/
+│   ├── services/   → appels API (upload, consultation)
+│   └── models/     → typage des données
+│
+├── pages/
+│   ├── upload/     → page dépôt d’image
+│   └── gallery/    → page galerie / recherche
+│
+├── shared/
+│   └── components/ → composants réutilisables (navbar…)
+```
+
+---
+
+## ⚙️ Technologies utilisées
+
+* Angular 17+ (standalone components)
+* TypeScript
+* SCSS
+* HTTP Client Angular
+* Google Cloud Functions (API backend)
+
+---
+
+## 🔗 Connexion au backend
+
+Le frontend communique avec deux Cloud Functions :
+
+* `enregistrement` → upload d’image
+* `consultation` → recherche par tags
+
+Les URLs sont configurées dans :
+
+```
+src/environments/environment.ts
+```
+
+### ✏️ À configurer :
+
+```ts
+export const environment = {
+  production: false,
+  uploadFunctionUrl: 'https://YOUR_UPLOAD_URL',
+  consultationFunctionUrl: 'https://YOUR_CONSULTATION_URL',
+};
+```
+
+---
+
+## 📦 Installation
+
+```bash
+npm install
+```
+
+---
+
+## ▶️ Lancer le projet
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Puis ouvrir :
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+## 🧩 Fonctionnalités
+
+### 📤 Upload
+
+* Drag & drop ou sélection de fichier
+* Preview de l’image
+* Validation (JPEG uniquement)
+* Envoi vers Cloud Function
+* Feedback utilisateur + progression
+
+### 🖼️ Galerie
+
+* Recherche par mot-clé (tags)
+* Appel API via `fetch` / HttpClient
+* Affichage en grille responsive
+* Tags visibles sur chaque image
+* Gestion des états (loading, vide, erreur)
+
+---
+
+## 🔒 Sécurité
+
+* Aucun secret stocké dans le code
+* Utilisation de variables d’environnement
+* Connexion sécurisée via API GCP
+
+---
+
+## 📁 Structure du projet
+
+```
+photocloud/
+│
+├── src/
+│   ├── app/
+│   ├── environments/
+│   ├── main.ts
+│   ├── main.html
+│   └── styles.scss
+│
+├── angular.json
+├── package.json
+└── README.md
 ```
 
-## Building
+---
 
-To build the project run:
+## 🧪 Dépendances principales
 
-```bash
-ng build
-```
+* @angular/core
+* @angular/common
+* @angular/router
+* @angular/forms
+* @angular/common/http
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 📌 Notes
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+* Projet en mode **standalone Angular (sans NgModule)**
+* Compatible mobile et desktop
+* Design inspiré de Google Photos
+* Peut être déployé sur un bucket GCP ou Firebase Hosting
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## 👨‍💻 Auteur
 
-For end-to-end (e2e) testing, run:
+Projet réalisé dans le cadre du module Cloud — EPSI.
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## ✅ À faire / améliorations possibles
 
-## Additional Resources
+* Authentification utilisateur (Firebase Auth)
+* Upload via URL signée
+* Pagination des résultats
+* Suppression d’images
+* UI encore plus avancée
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
