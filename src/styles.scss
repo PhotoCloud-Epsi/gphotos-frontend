@@ -1,1 +1,135 @@
-/* You can add global styles to this file, and also import other style files */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f8f8f6;
+  --color-bg-tertiary: #f1efe8;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666;
+  --color-text-tertiary: #999;
+  --color-border: #e0ddd5;
+  --color-border-strong: #ccc;
+  --color-blue: #185fa5;
+  --color-blue-light: #e6f1fb;
+  --color-green: #3b6d11;
+  --color-green-light: #eaf3de;
+  --color-red: #a32d2d;
+  --color-red-light: #fcebeb;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1c1c1a;
+    --color-bg-secondary: #242422;
+    --color-bg-tertiary: #2c2c2a;
+    --color-text: #f0ede8;
+    --color-text-secondary: #a8a59e;
+    --color-text-tertiary: #6a6760;
+    --color-border: #3a3835;
+    --color-border-strong: #4a4845;
+    --color-blue: #85b7eb;
+    --color-blue-light: #042c53;
+    --color-green: #97c459;
+    --color-green-light: #173404;
+    --color-red: #f09595;
+    --color-red-light: #501313;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1 { font-size: 22px; font-weight: 500; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: .6rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: opacity .15s, transform .1s;
+
+  &:active { transform: scale(.98); }
+  &:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+  &--primary {
+    background: var(--color-blue);
+    color: #fff;
+    &:hover:not(:disabled) { opacity: .9; }
+  }
+  &--search {
+    background: var(--color-blue);
+    color: #fff;
+    white-space: nowrap;
+    &:hover:not(:disabled) { opacity: .9; }
+  }
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.feedback {
+  margin-top: 1rem;
+  padding: .75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  &--success { background: var(--color-green-light); color: var(--color-green); border: 0.5px solid var(--color-green); }
+  &--error   { background: var(--color-red-light);   color: var(--color-red);   border: 0.5px solid var(--color-red);   }
+}
+
+.tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--color-blue-light);
+  color: var(--color-blue);
+  font-weight: 500;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.skeleton {
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius);
+  aspect-ratio: 1;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+
+.photo-card {
+  background: var(--color-bg-secondary);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .15s;
+  &:hover { transform: translateY(-2px); }
+  img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--color-bg-tertiary); }
+  &__body { padding: .75rem; }
+  &__tags { display: flex; flex-wrap: wrap; gap: 4px; }
+}
+
+.results-count { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1rem; }
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--color-text-tertiary); font-size: 14px; }
+.empty-state--error { color: var(--color-red); }
