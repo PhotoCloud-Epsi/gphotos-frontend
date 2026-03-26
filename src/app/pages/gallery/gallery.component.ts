@@ -1,4 +1,4 @@
-import { ApiService } from '../../core/services/.service';
+import { ConsultationService } from '../../core/services/consultation.service';
 import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ export class GalleryComponent implements OnInit {
   previewPhotos: Photo[] = [];
   skeletons = Array(6);
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ConsultationService) {}
 
   ngOnInit() {
     this.loadTags();

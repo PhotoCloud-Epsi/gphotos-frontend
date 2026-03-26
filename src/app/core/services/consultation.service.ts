@@ -7,7 +7,7 @@ import { PhotosResponse, TagsResponse } from '../models/consulation.models'
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ConsultationService {
 
   private baseUrl = environment.apiUrl
 

@@ -1,0 +1,62 @@
+<div class="upload-header">
+      <h1>Déposer une image</h1>
+      <p>L'image sera analysée automatiquement et ses tags stockés en base de données.</p>
+    </div>
+
+    <div
+      class="dropzone"
+      [class.dropzone--dragging]="isDragging()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+    >
+      <input type="file" accept="image/jpeg,image/jpg" (change)="onFileChange($event)" />
+      <div class="dropzone__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+        </svg>
+      </div>
+      <p>Glisser-déposer une image ici</p>
+      <span>ou cliquer pour sélectionner — JPEG uniquement</span>
+    </div>
+
+    @if (selectedFile()) {
+      <div class="preview">
+        <img [src]="previewUrl()" class="preview__img" alt="preview" />
+        <div class="preview__info">
+          <span class="preview__name">{{ selectedFile()!.name }}</span>
+          <span class="preview__size">{{ formatSize(selectedFile()!.size) }}</span>
+        </div>
+        <button class="preview__remove" (click)="removeFile()" title="Retirer">&#x2715;</button>
+      </div>
+    }
+
+    @if (isLoading() && progress() > 0) {
+      <div class="progress-bar">
+        <div class="progress-bar__fill" [style.width.%]="progress()"></div>
+      </div>
+    }
+
+    <div class="upload-actions">
+      <button
+        class="btn btn--primary"
+        [disabled]="!selectedFile() || isLoading()"
+        (click)="upload()"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span> Envoi en cours…
+        } @else {
+          Envoyer l'image
+        }
+      </button>
+    </div>
+
+    @if (feedback().type) {
+      <div
+        class="feedback"
+        [class.feedback--success]="feedback().type === 'success'"
+        [class.feedback--error]="feedback().type === 'error'"
+      >
+        {{ feedback().message }}
+      </div>
+    }
