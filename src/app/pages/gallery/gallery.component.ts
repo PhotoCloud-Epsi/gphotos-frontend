@@ -21,31 +21,42 @@ type Photo = {
 })
 export class GalleryComponent implements OnInit {
 
-  query        = '';
-  lastQuery    = signal('');
-  state        = signal<GalleryState>('idle');
-  photos       = signal<Photo[]>([]);
+  query = '';
+  lastQuery = signal('');
+  state = signal<GalleryState>('idle');
+  photos = signal<Photo[]>([]);
   errorMessage = signal('');
   activeFilter = signal<string | null>(null);
-  sortBy       = signal<'default' | 'tags'>('default');
+  sortBy = signal<'default' | 'tags'>('default');
   selectedPhoto = signal<Photo | null>(null);
 
   suggestedTags: string[] = [];
   previewPhotos: Photo[] = [];
   skeletons = Array(6);
 
-  constructor(private api: ConsultationService) {}
+  // 🔥 gestion affichage tags
+  showAllTags = signal(false);
+
+  visibleTags = computed(() => {
+    return this.showAllTags()
+      ? this.suggestedTags
+      : this.suggestedTags.slice(0, 10);
+  });
+
+  constructor(private api: ConsultationService) { }
 
   ngOnInit() {
     this.loadTags();
     this.loadPreview();
   }
 
-  // 🔥 Charger les tags depuis API
+  // 🔥 Charger les tags + tri alphabétique
   loadTags() {
     this.api.getTags().subscribe({
       next: res => {
-        this.suggestedTags = res.tags;
+        this.suggestedTags = res.tags
+          .map((t: string) => t.trim())
+          .sort((a: string, b: string) => a.localeCompare(b));
       },
       error: () => {
         this.suggestedTags = [];
@@ -53,7 +64,6 @@ export class GalleryComponent implements OnInit {
     });
   }
 
-  // 🔥 Charger preview (sans query)
   loadPreview() {
     this.api.getPhotos().subscribe({
       next: res => {
@@ -111,7 +121,6 @@ export class GalleryComponent implements OnInit {
     this.selectedPhoto.set(null);
   }
 
-  // 🔥 remplace ton ancien parseTags
   parseTags(tags: string): string[] {
     return tags.split(',').map(t => t.trim());
   }

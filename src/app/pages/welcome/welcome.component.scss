@@ -69,20 +69,59 @@
 .about {
   font-size: 0.9rem;
   color: #777;
+  margin-top: 20px;
 
-  a {
-    color: #007bff;
+  .authors {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+    transition: transform 0.2s;
 
     &:hover {
-      text-decoration: underline;
+      transform: translateY(-4px);
+
+      span {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+    object-fit: cover;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: #0056b3;
     }
   }
 }
 
+/* MOT DYNAMIQUE */
 .dynamic-word {
   font-weight: bold;
-  transition: color 0.5s ease, opacity 0.5s ease;
   display: inline-block;
   margin-left: 5px;
+  transition: color 0.5s ease;
+  opacity: 1;
+  transition: color 0.4s ease, opacity 0.3s ease;
+
+  &.fade {
+    opacity: 0;
+  }
 }

@@ -9,7 +9,8 @@ type FeedbackType = 'success' | 'error' | null;
   selector: 'app-upload',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: `./upload.component.html`
+  templateUrl: `./upload.component.html`,
+  styleUrl : `./upload.component.scss`
 })
 export class UploadComponent {
   selectedFile = signal<File | null>(null);
@@ -17,6 +18,7 @@ export class UploadComponent {
   isDragging   = signal(false);
   isLoading    = signal(false);
   progress     = signal(0);
+  uploaded     = signal(false);
   feedback     = signal<{ message: string; type: FeedbackType }>({ message: '', type: null });
 
   constructor(private uploadService: UploadService) {}
@@ -48,6 +50,7 @@ export class UploadComponent {
     }
 
     this.selectedFile.set(file);
+    this.uploaded.set(false);
     this.feedback.set({ message: '', type: null });
 
     const reader = new FileReader();
@@ -60,6 +63,7 @@ export class UploadComponent {
     this.previewUrl.set(null);
     this.progress.set(0);
     this.feedback.set({ message: '', type: null });
+    this.uploaded.set(false);
   }
 
   async upload() {
@@ -71,36 +75,32 @@ export class UploadComponent {
     this.feedback.set({ message: '', type: null });
 
     try {
-      // -------------------------
-      // BASE64
-      // -------------------------
       const base64 = await this.toBase64(file);
       const cleanBase64 = base64.split(',')[1];
 
-      // fake progress (visuel)
       this.progress.set(30);
 
       this.uploadService.uploadImage(cleanBase64, file.name).subscribe({
-        next: (res) => {
+        next: (res: UploadResult) => {
           this.progress.set(100);
 
           this.setFeedback(
-            'Image envoyée avec succès. Elle sera analysée dans quelques secondes.',
+            'Image envoyée avec succès ✔',
             'success'
           );
 
-          console.log('URL:', res.url);
-
-          this.removeFile();
+          this.uploaded.set(true);
           this.isLoading.set(false);
+
+          console.log('URL:', res.url);
         },
-        error: (err) => {
+        error: () => {
           this.setFeedback('Erreur upload', 'error');
           this.isLoading.set(false);
         }
       });
 
-    } catch (err) {
+    } catch {
       this.setFeedback('Erreur conversion image', 'error');
       this.isLoading.set(false);
     }

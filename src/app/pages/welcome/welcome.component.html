@@ -1,20 +1,18 @@
 <div class="welcome">
 
   <section class="hero">
-  <h1>☁️ PhotoCloud</h1>
-
-  <p>
-    Upload, browse and search your images 
-    <span class="dynamic-word" [style.color]="currentColor">
-      {{ currentWord }}
-    </span>
-  </p>
-</section>
+    <h1>☁️ PhotoCloud</h1>
+    <p>
+      Upload, browse and search your images
+      <span class="dynamic-word" [style.color]="currentColor" [class.fade]="fading">
+        {{ currentWord }}
+      </span>
+    </p>
+  </section>
 
   <!-- FEATURES -->
   <section class="features">
     <h2>Features</h2>
-
     <div class="cards">
 
       <div class="card">
@@ -41,16 +39,27 @@
   <!-- ABOUT -->
   <section class="about">
     <p>📚 Project made at EPSI</p>
-    <p>
-      By 
-      <a href="https://github.com/Formidabledu59" target="_blank">
-        Ayoub FATHALLAH
+    <div class="authors">
+
+      <a href="https://github.com/Formidabledu59" target="_blank" class="author">
+        <img
+          src="https://avatars.githubusercontent.com/u/130578160?v=4"
+          alt="Ayoub FATHALLAH"
+          class="avatar"
+        />
+        <span>Ayoub FATHALLAH</span>
       </a>
-      and 
-      <a href="https://github.com/Zagoki" target="_blank">
-        Matthéo COPPIN
+
+      <a href="https://github.com/Zagoki" target="_blank" class="author">
+        <img
+          src="https://avatars.githubusercontent.com/u/156175696?v=4"
+          alt="Matthéo COPPIN"
+          class="avatar"
+        />
+        <span>Matthéo COPPIN</span>
       </a>
-    </p>
+
+    </div>
   </section>
 
 </div>
