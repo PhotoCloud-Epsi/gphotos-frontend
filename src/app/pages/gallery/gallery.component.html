@@ -1,0 +1,142 @@
+
+    <div class="gallery-header">
+      <h1>Galerie</h1>
+      <p>Recherchez vos photos par tag ou explorez les suggestions.</p>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <div class="search-bar__field">
+        <svg class="search-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input
+          class="search-bar__input"
+          type="text"
+          placeholder="Rechercher un tag : chien, plage, ville…"
+          [(ngModel)]="query"
+          (keydown.enter)="search()"
+          (input)="onQueryInput()"
+        />
+        @if (query.length > 0) {
+          <button class="search-bar__clear" (click)="clearSearch()" title="Effacer">&#x2715;</button>
+        }
+      </div>
+      <button
+        class="btn btn--search"
+        [disabled]="state() === 'loading' || !query.trim()"
+        (click)="search()"
+      >
+        @if (state() === 'loading') {
+          <span class="spinner"></span>
+        } @else {
+          Rechercher
+        }
+      </button>
+    </div>
+
+    <!-- Filtres rapides -->
+    <div class="quick-filters">
+      @for (tag of suggestedTags; track tag) {
+        <button
+          class="quick-filter"
+          [class.quick-filter--active]="activeFilter() === tag"
+          (click)="applyFilter(tag)"
+        >
+          {{ tag }}
+        </button>
+      }
+    </div>
+
+    <!-- États -->
+    @switch (state()) {
+
+      @case ('idle') {
+        <div class="section-label">Aperçu</div>
+        <div class="grid">
+          @for (photo of previewPhotos; track photo.id) {
+            <div class="photo-card" (click)="openPhoto(photo)">
+              <img [src]="photo.url" [alt]="parseTags(photo.tags)[0]" loading="lazy" />
+              <div class="photo-card__body">
+                <div class="photo-card__tags">
+                  @for (tag of parseTags(photo.tags).slice(0,3); track tag) {
+                    <span class="tag">{{ tag }}</span>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @case ('loading') {
+        <div class="grid">
+          @for (s of skeletons; track $index) {
+            <div class="skeleton"></div>
+          }
+        </div>
+      }
+
+      @case ('results') {
+        <div class="results-meta">
+          <span class="results-count">
+            {{ photos().length }} résultat{{ photos().length > 1 ? 's' : '' }}
+            pour <strong>"{{ lastQuery() }}"</strong>
+          </span>
+          <div class="sort-bar">
+            <span class="sort-label">Trier :</span>
+            <button class="sort-btn" [class.sort-btn--active]="sortBy() === 'default'" (click)="setSortBy('default')">Par défaut</button>
+            <button class="sort-btn" [class.sort-btn--active]="sortBy() === 'tags'"    (click)="setSortBy('tags')">Tags</button>
+          </div>
+        </div>
+        <div class="grid">
+          @for (photo of sortedPhotos(); track photo.id) {
+            <div class="photo-card" (click)="openPhoto(photo)">
+              <img [src]="photo.url" [alt]="parseTags(photo.tags)[0]" loading="lazy"
+                   onerror="this.style.opacity='0.3'" />
+              <div class="photo-card__body">
+                <div class="photo-card__tags">
+                  @for (tag of parseTags(photo.tags).slice(0,4); track tag) {
+                    <span class="tag">{{ tag }}</span>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @case ('empty') {
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <p>Aucune photo pour <strong>"{{ lastQuery() }}"</strong>.</p>
+          <span>Essayez un autre tag ou explorez les suggestions ci-dessus.</span>
+        </div>
+      }
+
+      @case ('error') {
+        <div class="empty-state empty-state--error">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+          </svg>
+          <p>{{ errorMessage() }}</p>
+        </div>
+      }
+    }
+
+    <!-- Lightbox -->
+    @if (selectedPhoto()) {
+      <div class="lightbox" (click)="closePhoto()">
+        <div class="lightbox__box" (click)="$event.stopPropagation()">
+          <button class="lightbox__close" (click)="closePhoto()">&#x2715;</button>
+          <img [src]="selectedPhoto()!.url" [alt]="parseTags(selectedPhoto()!.tags)[0]" />
+          <div class="lightbox__tags">
+            @for (tag of parseTags(selectedPhoto()!.tags); track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    }

@@ -18,8 +18,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/gphotos-frontend",
-            "index": "src/main.html",
-            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "browser": "src/index.ts",
             "polyfills": [
               "zone.js"
             ],

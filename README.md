@@ -129,8 +129,8 @@ photocloud/
 ├── src/
 │   ├── app/
 │   ├── environments/
-│   ├── main.ts
-│   ├── main.html
+│   ├── index.ts
+│   ├── index.html
 │   └── styles.scss
 │
 ├── angular.json
