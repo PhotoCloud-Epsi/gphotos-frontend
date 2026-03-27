@@ -30,15 +30,15 @@ src/app/
 │   ├── upload/     → page dépôt d’image
 │   └── gallery/    → page galerie / recherche
 │
-├── shared/
-│   └── components/ → composants réutilisables (navbar…)
+└── shared/
+    └── components/ → composants réutilisables (navbar…)
 ```
 
 ---
 
 ## ⚙️ Technologies utilisées
 
-* Angular 17+ (standalone components)
+* Angular 19 (standalone components)
 * TypeScript
 * SCSS
 * HTTP Client Angular
@@ -50,46 +50,8 @@ src/app/
 
 Le frontend communique avec deux Cloud Functions :
 
-* `enregistrement` → upload d’image
+* `upload` → upload d’image
 * `consultation` → recherche par tags
-
-Les URLs sont configurées dans :
-
-```
-src/environments/environment.ts
-```
-
-### ✏️ À configurer :
-
-```ts
-export const environment = {
-  production: false,
-  uploadFunctionUrl: 'https://YOUR_UPLOAD_URL',
-  consultationFunctionUrl: 'https://YOUR_CONSULTATION_URL',
-};
-```
-
----
-
-## 📦 Installation
-
-```bash
-npm install
-```
-
----
-
-## ▶️ Lancer le projet
-
-```bash
-ng serve
-```
-
-Puis ouvrir :
-
-```
-http://localhost:4200
-```
 
 ---
 
@@ -140,37 +102,12 @@ photocloud/
 
 ---
 
-## 🧪 Dépendances principales
-
-* @angular/core
-* @angular/common
-* @angular/router
-* @angular/forms
-* @angular/common/http
-
----
-
-## 📌 Notes
-
-* Projet en mode **standalone Angular (sans NgModule)**
-* Compatible mobile et desktop
-* Design inspiré de Google Photos
-* Peut être déployé sur un bucket GCP ou Firebase Hosting
-
----
-
 ## 👨‍💻 Auteur
 
 Projet réalisé dans le cadre du module Cloud — EPSI.
 
----
-
-## ✅ À faire / améliorations possibles
-
-* Authentification utilisateur (Firebase Auth)
-* Upload via URL signée
-* Pagination des résultats
-* Suppression d’images
-* UI encore plus avancée
+[Ayoub FATHALLAH](https://github.com/Formidabledu59)
+&
+[Matthéo COPPIN](https://github.com/Zagoki)
 
 ---
