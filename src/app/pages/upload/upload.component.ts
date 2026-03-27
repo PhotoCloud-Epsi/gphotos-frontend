@@ -39,8 +39,8 @@ export class UploadComponent {
   }
 
   handleFile(file: File) {
-    if (!file.type.includes('jpeg') && !file.type.includes('jpg')) {
-      this.setFeedback('Seuls les fichiers JPEG sont autorisés', 'error');
+    if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png')) {
+      this.setFeedback('Seuls les fichiers JPEG/JPG/PNG sont autorisés', 'error');
       return;
     }
 

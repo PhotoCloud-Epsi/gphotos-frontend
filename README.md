@@ -99,7 +99,7 @@ http://localhost:4200
 
 * Drag & drop ou sélection de fichier
 * Preview de l’image
-* Validation (JPEG uniquement)
+* Validation (JPEG/JPG/PNG uniquement)
 * Envoi vers Cloud Function
 * Feedback utilisateur + progression
 
